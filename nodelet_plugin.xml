@@ -1,0 +1,12 @@
+<library path="lib/libattitude_cdkf_nodelet">
+  <class name="attitude_filter/AttitudeCDKFNodelet" type="AttitudeCDKFNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+    </description>
+  </class>
+</library>
+<library path="lib/libattitude_ukf_nodelet">
+  <class name="attitude_filter/AttitudeUKFNodelet" type="AttitudeUKFNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+    </description>
+  </class>
+</library>

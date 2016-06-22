@@ -1,0 +1,11 @@
+<launch>
+  <node pkg="nodelet"
+    type="nodelet"
+    name="attitude_filter"
+    args="standalone attitude_filter/AttitudeCDKFNodelet"
+    clear_params="true"
+    output="screen">
+    <rosparam file="$(find attitude_filter)/config/params.yaml"/>
+    <remap from="~imu" to="/fla3/sync/imu/imu"/>
+  </node>
+</launch>
