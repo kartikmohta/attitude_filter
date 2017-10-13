@@ -15,3 +15,10 @@ cs_add_library(attitude_cdkf src/attitude_cdkf.cpp)
 
 cs_add_library(attitude_cdkf_nodelet src/attitude_cdkf_nodelet.cpp)
 target_link_libraries(attitude_cdkf_nodelet attitude_cdkf)
+
+cs_install()
+
+install(FILES nodelet_plugin.xml
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+cs_export()
