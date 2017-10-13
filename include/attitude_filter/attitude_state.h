@@ -33,9 +33,11 @@ class AttitudeState
   Vec<3> getBias() const { return gyro_bias_; }
   void setBias(const Vec<3> &b) { gyro_bias_ = b; }
 
+  // x, y on the manifold, v in R^n
+  // We want y = x.boxPlus(v) and v = y.boxMinus(x)
   AttitudeState<Scalar_t> boxPlus(const Vec<state_count_> &v) const
   {
-    const Quat q = orientation_ * mrp_to_quat(v.template head<3>());
+    const Quat q = orientation_ * vec_to_quat(v.template head<3>());
     const Vec<3> bias = gyro_bias_ + v.template tail<3>();
     return AttitudeState<Scalar_t>(q, bias);
   }
@@ -44,7 +46,7 @@ class AttitudeState
   {
     StateVec v;
     v.template head<3>() =
-        quat_to_mrp(s.getOrientation().conjugate() * orientation_);
+        quat_to_vec(s.getOrientation().conjugate() * orientation_);
     v.template tail<3>() = gyro_bias_ - s.getBias();
     return v;
   }
@@ -56,16 +58,16 @@ class AttitudeState
 
  private:
 
-  Vec<3> quat_to_mrp(const Quat &q) const
+  Vec<3> quat_to_vec(const Quat &q) const
   {
     return 4 * q.vec() / (1 + q.w());
   }
 
-  Quat mrp_to_quat(const Vec<3> &mrp) const
+  Quat vec_to_quat(const Vec<3> &vec) const
   {
     Quat q;
-    q.w() = (16 - mrp.squaredNorm()) / (16 + mrp.squaredNorm());
-    q.vec() = (1 + q.w()) * mrp / 4;
+    q.w() = (16 - vec.squaredNorm()) / (16 + vec.squaredNorm());
+    q.vec() = (1 + q.w()) * vec / 4;
     return q;
   }
 
